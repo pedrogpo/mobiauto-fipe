@@ -118,7 +118,7 @@ function FormConsult({ brands }: IFormConsultProps) {
                   shouldValidate: true,
                 })
               }
-              disabled={!modelsList}
+              disabled={!modelsList || !isBrandSelected}
               sx={{ height: 40 }}
               fullWidth
             >
