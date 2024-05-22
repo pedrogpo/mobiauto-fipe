@@ -1,0 +1,11 @@
+{
+  "extends": [
+    "prettier",
+    "next/core-web-vitals"
+  ],
+
+  "rules": {
+    // eslint-disable-next-line react/no-unescaped-entities
+    "react/no-unescaped-entities": "off"
+  }
+}
