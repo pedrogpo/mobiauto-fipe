@@ -72,8 +72,8 @@ describe('LastConsults store', () => {
     store.addConsult(fipeDataMock)
     store.addConsult(secondFipeDataMock)
     store.removeConsult(0)
-    expect(store.list).not.toContainEqual(fipeDataMock)
-    expect(store.list).toContainEqual(secondFipeDataMock)
+    expect(store.list).not.toContainEqual(secondFipeDataMock)
+    expect(store.list).toContainEqual(fipeDataMock)
   })
 
   test('clears the list', () => {
@@ -87,10 +87,10 @@ describe('LastConsults store', () => {
     expect(store.getConsult(0)).toEqual(fipeDataMock)
   })
 
-  test('gets all consults', () => {
+  test('gets all consults in right order', () => {
     store.addConsult(fipeDataMock)
     store.addConsult(secondFipeDataMock)
-    expect(store.getConsults()).toEqual([fipeDataMock, secondFipeDataMock])
+    expect(store.getConsults()).toEqual([secondFipeDataMock, fipeDataMock])
   })
 
   test('clearPersistedData clears the persisted data and stops persisting', async () => {

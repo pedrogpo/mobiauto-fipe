@@ -22,7 +22,6 @@ const customJestConfig = {
   moduleNameMapper: {
     '\\.(scss|css|sass)$': 'identity-obj-proxy',
     '^~/(.*)$': '<rootDir>/src/$1',
-    '^~/(.*)': '<rootDir>/src/$1',
   },
   collectCoverage: true,
   collectCoverageFrom: ['src/.*'],

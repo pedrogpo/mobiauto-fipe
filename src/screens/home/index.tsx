@@ -1,7 +1,7 @@
-import FormConsult from './components/FormConsult'
 import { Grid, Typography } from '@mui/material'
 import { IBrandResponse } from '~/interfaces/api/fipe/brands'
-import LastConsults from './components/LastConsults'
+import LastConsults from '~/screens/home/components/LastConsults'
+import FormConsult from '~/screens/home/components/FormConsult'
 
 interface IFormConsultProps {
   brands: IBrandResponse[]
