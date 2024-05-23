@@ -1,4 +1,4 @@
-import { render } from '@testing-library/react'
+import { findByLabelText, render } from '@testing-library/react'
 import Page from '../app/page'
 import { HttpError } from '~/core/http/errors'
 import { IBrandResponse } from '~/interfaces/api/fipe/brands'
@@ -47,7 +47,7 @@ describe('FormConsult component', () => {
     expect(await findByText(ERR_MESSAGE)).toBeInTheDocument()
   })
 
-  it('renders ErrorScreen when getBrands fails with HttpError', async () => {
+  it('renders ErrorScreen when getBrands fails with HttpError with correct error message', async () => {
     const ERR_MESSAGE = 'Nenhuma marca foi encontrada.'
 
     const { getBrands } = require('~/actions/fipe/brands')

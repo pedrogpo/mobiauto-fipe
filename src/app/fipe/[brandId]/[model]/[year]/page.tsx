@@ -1,4 +1,6 @@
 import { fipeCalc } from '~/actions/fipe/fipeCalc'
+import { HttpError } from '~/core/http/errors'
+import ErrorScreen from '~/screens/errors'
 import FipeScreen from '~/screens/fipe'
 
 interface IFipeProps {
@@ -12,7 +14,18 @@ export default async function Page({
 }: {
   params: IFipeProps
 }) {
-  const fipeData = await fipeCalc('carros', brandId, model, year)
+  try {
+    const fipeData = await fipeCalc('carros', brandId, model, year)
 
-  return <FipeScreen {...fipeData} />
+    return <FipeScreen {...fipeData} />
+  } catch (err) {
+    const { message } = err as HttpError | Error
+
+    return (
+      <ErrorScreen
+        title="Erro ao buscar marcas"
+        message={message || 'Algo deu errado. Tente novamente mais tarde'}
+      />
+    )
+  }
 }
