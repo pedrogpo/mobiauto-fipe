@@ -2,6 +2,11 @@ import HomeScreen from '~/screens/home'
 import ErrorScreen from '~/screens/errors'
 import { getBrands } from '~/actions/fipe/brands'
 import { HttpError } from '~/core/http/errors'
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Consultar Fipe',
+}
 
 export default async function Page() {
   try {
