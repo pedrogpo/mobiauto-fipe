@@ -1,9 +1,8 @@
-import 'react-toastify/dist/ReactToastify.css'
 import { CssBaseline } from '@mui/material'
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter'
 import { ThemeProvider } from '@mui/material/styles'
-import { ToastContainer } from 'react-toastify'
 import theme from '~/core/constants/theme'
+import { SnackbarProvider } from '~/context/snackbar'
 
 export default function RootLayout({
   children,
@@ -13,13 +12,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <AppRouterCacheProvider>
-          <ThemeProvider theme={theme}>
-            <CssBaseline />
-            {children}
-            <ToastContainer />
-          </ThemeProvider>
-        </AppRouterCacheProvider>
+        <SnackbarProvider>
+          <AppRouterCacheProvider>
+            <ThemeProvider theme={theme}>
+              <CssBaseline />
+              {children}
+            </ThemeProvider>
+          </AppRouterCacheProvider>
+        </SnackbarProvider>
       </body>
     </html>
   )

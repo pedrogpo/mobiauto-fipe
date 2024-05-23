@@ -1,4 +1,3 @@
-// stores/consultStore.ts
 import { makeAutoObservable } from 'mobx'
 import { getModels } from '~/actions/fipe/models'
 import { getYears } from '~/actions/fipe/years'

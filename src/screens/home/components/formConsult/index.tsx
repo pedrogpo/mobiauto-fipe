@@ -6,6 +6,7 @@ import {
   Button,
   MenuItem,
   Select,
+  Snackbar,
   TextField,
 } from '@mui/material'
 import { Controller, useForm } from 'react-hook-form'
@@ -16,7 +17,7 @@ import { useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
 import { consultStore } from '~/store/consult'
 import { useRouter } from 'next/navigation'
-import Toast from '~/core/toast'
+import { useSnackbar } from '~/hooks/useSnackbarContext'
 
 const DEFAULT_SELECT_VALUE = '0'
 
@@ -24,7 +25,9 @@ interface IFormConsultProps {
   brands: IBrandResponse[]
 }
 
-const FormConsult: React.FC<IFormConsultProps> = ({ brands }) => {
+function FormConsult({ brands }: IFormConsultProps) {
+  const { showSnackbar } = useSnackbar()
+
   const router = useRouter()
   const {
     setValue,
@@ -54,11 +57,12 @@ const FormConsult: React.FC<IFormConsultProps> = ({ brands }) => {
     setValue('model', null)
     setValue('year', DEFAULT_SELECT_VALUE)
     if (isBrandSelected) {
-      consultStore
-        .fetchModels('carros', currentBrand)
-        .catch(() =>
-          Toast({ message: 'Erro ao buscar modelos', type: 'error' }),
-        )
+      consultStore.fetchModels('carros', currentBrand).catch(() =>
+        showSnackbar({
+          message: 'Erro ao buscar modelos. Tente novamente mais tarde.',
+          variant: 'error',
+        }),
+      )
     } else {
       consultStore.setModels(null)
     }
@@ -67,9 +71,12 @@ const FormConsult: React.FC<IFormConsultProps> = ({ brands }) => {
   useEffect(() => {
     setValue('year', DEFAULT_SELECT_VALUE)
     if (isBrandSelected && isModelSelected) {
-      consultStore
-        .fetchYears('carros', currentBrand, currentModel)
-        .catch(() => Toast({ message: 'Erro ao buscar anos', type: 'error' }))
+      consultStore.fetchYears('carros', currentBrand, currentModel).catch(() =>
+        showSnackbar({
+          message: 'Erro ao buscar anos. Tente novamente mais tarde.',
+          variant: 'error',
+        }),
+      )
     } else {
       consultStore.setYears(null)
     }
