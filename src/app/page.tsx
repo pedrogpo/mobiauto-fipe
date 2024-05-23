@@ -7,12 +7,17 @@ export default async function Page() {
   try {
     const brands = await getBrands('carros')
 
+    if (!brands.length)
+      throw new HttpError('Nenhuma marca foi encontrada.', 404)
+
     return <HomeScreen brands={brands} />
   } catch (err) {
+    const { message } = err as HttpError | Error
+
     return (
       <ErrorScreen
         title="Erro ao buscar marcas"
-        message={(err as HttpError).message}
+        message={message || 'Algo deu errado. Tente novamente mais tarde'}
       />
     )
   }
