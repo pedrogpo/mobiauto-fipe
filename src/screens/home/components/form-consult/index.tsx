@@ -18,7 +18,7 @@ import { observer } from 'mobx-react-lite'
 import { consultStore } from '~/store/consult'
 import { useRouter } from 'next/navigation'
 import { useSnackbar } from '~/hooks/useSnackbarContext'
-import { vehicleOptions } from '~/core/utils/types/vehicles'
+import { IVehicleOption, vehicleOptions } from '~/core/utils/types/vehicles'
 import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutlineOutlined'
 
 const DEFAULT_SELECT_VALUE = '0'
@@ -64,6 +64,7 @@ function FormConsult({ brands: brandsCached }: IFormConsultProps) {
   const currentBrand = watch('brand')
   const currentModel = watch('model')
 
+  const isVehicleSelected = !!(currentVehicle && currentModel !== 'undefined')
   const isBrandSelected = !!(currentBrand && currentBrand !== 'undefined')
   const isModelSelected = !!(currentModel && currentModel !== 'undefined')
 
@@ -72,9 +73,10 @@ function FormConsult({ brands: brandsCached }: IFormConsultProps) {
   const brandList = brands || brandsCached
 
   useEffect(() => {
-    setValue('brand', null)
-    setValue('model', null)
-    setValue('year', DEFAULT_SELECT_VALUE)
+    setValue('brand', null, { shouldValidate: true })
+    setValue('model', null, { shouldValidate: true })
+    setValue('year', DEFAULT_SELECT_VALUE, { shouldValidate: true })
+    consultStore.clearBrands()
     if (currentVehicle) {
       consultStore.clearModels()
       consultStore.clearYears()
@@ -83,10 +85,10 @@ function FormConsult({ brands: brandsCached }: IFormConsultProps) {
   }, [currentVehicle])
 
   useEffect(() => {
-    setValue('model', null)
-    setValue('year', DEFAULT_SELECT_VALUE)
+    setValue('model', null, { shouldValidate: true })
+    setValue('year', DEFAULT_SELECT_VALUE, { shouldValidate: true })
     consultStore.clearModels()
-    if (isBrandSelected) {
+    if (isVehicleSelected && isBrandSelected) {
       consultStore.clearYears()
       consultStore.fetchModels(currentVehicle.value, currentBrand).catch(() =>
         showSnackbar({
@@ -98,8 +100,8 @@ function FormConsult({ brands: brandsCached }: IFormConsultProps) {
   }, [currentBrand])
 
   useEffect(() => {
-    setValue('year', DEFAULT_SELECT_VALUE)
-    if (isBrandSelected && isModelSelected) {
+    setValue('year', DEFAULT_SELECT_VALUE, { shouldValidate: true })
+    if (isVehicleSelected && isBrandSelected && isModelSelected) {
       consultStore.clearYears()
       consultStore
         .fetchYears(currentVehicle.value, currentBrand, currentModel)
@@ -137,20 +139,21 @@ function FormConsult({ brands: brandsCached }: IFormConsultProps) {
               </Box>
             )
           }}
-          onChange={(event, value) =>
+          disableClearable={true}
+          onChange={(event, value) => {
             setValue(
               'vehicle',
               {
-                label: value || 'Carros',
+                label: value || 'carros',
                 value:
                   vehicleOptions.find((option) => option.label === value)
                     ?.value || 'carros',
-              },
+              } as IVehicleOption,
               {
                 shouldValidate: true,
               },
             )
-          }
+          }}
           renderInput={(params) => (
             <TextField {...params} label="Selecione o tipo" />
           )}

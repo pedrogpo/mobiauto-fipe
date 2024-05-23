@@ -41,6 +41,10 @@ export class ConsultStore {
     })
   }
 
+  clearBrands() {
+    this.brands = null
+  }
+
   clearModels() {
     this.models = null
   }
