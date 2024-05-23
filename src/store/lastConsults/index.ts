@@ -42,7 +42,14 @@ export class LastConsultsStore {
   }
 
   addConsult(consult: IFipeCalcWithIds) {
-    if (this.list.some((item) => item.CodigoFipe === consult.CodigoFipe)) {
+    if (
+      this.list.some(
+        (item) =>
+          item.brandId === consult.brandId &&
+          item.modelId === consult.modelId &&
+          item.yearId === consult.yearId,
+      )
+    ) {
       return
     }
 
