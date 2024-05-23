@@ -38,6 +38,8 @@ const FormConsult: React.FC<IFormConsultProps> = ({ brands }) => {
   })
 
   const onSubmit = async (data: FormConsultType) => {
+    if (data.brand === 'undefined' || data.model === 'undefined') return
+
     router.push(`/fipe/${data.brand}/${data.model}/${data.year}`)
   }
 
@@ -57,6 +59,11 @@ const FormConsult: React.FC<IFormConsultProps> = ({ brands }) => {
         .catch(() =>
           Toast({ message: 'Erro ao buscar modelos', type: 'error' }),
         )
+    } else {
+      console.log('oi')
+      setValue('model', null)
+      setValue('year', DEFAULT_SELECT_VALUE)
+      consultStore.setModels(null)
     }
   }, [currentBrand])
 

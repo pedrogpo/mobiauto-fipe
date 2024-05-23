@@ -2,7 +2,12 @@ import * as z from 'zod'
 
 export const formConsult = z.object({
   // consider that brand will bring a string with the brand number, so it needs to be greater than 0
-  brand: z.string().nullable(),
+  brand: z
+    .string()
+    .refine((data) => data !== null && data !== 'undefined', {
+      message: 'Selecione uma marca',
+    })
+    .nullable(),
   model: z
     .string()
     .refine((data) => data !== null && data !== 'undefined', {
