@@ -10,19 +10,28 @@ class ConsultStore {
   models: IModelsResponse | null = null
   years: IYearsResponse[] | null = null
 
+  loadingModels = false
+  loadingYears = false
+
   constructor() {
     makeAutoObservable(this)
   }
 
   async fetchModels(vehicleType: vehicleTypes, brand: string) {
+    this.loadingModels = true
     this.models = null
     this.years = null
-    this.models = await getModels(vehicleType, brand)
+    this.models = await getModels(vehicleType, brand).finally(() => {
+      this.loadingModels = false
+    })
   }
 
   async fetchYears(vehicleType: vehicleTypes, brand: string, model: string) {
+    this.loadingYears = true
     this.years = null
-    this.years = await getYears(vehicleType, brand, model)
+    this.years = await getYears(vehicleType, brand, model).finally(() => {
+      this.loadingYears = false
+    })
   }
 
   setYears(years: IYearsResponse[] | null) {

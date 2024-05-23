@@ -1,6 +1,11 @@
-export interface HttpError {
+export class HttpError {
   message: string
   statusCode: number
+
+  constructor(message: string, statusCode: number) {
+    this.message = message
+    this.statusCode = statusCode
+  }
 }
 
 export const httpError = (statusCode: number, message: string): HttpError => {

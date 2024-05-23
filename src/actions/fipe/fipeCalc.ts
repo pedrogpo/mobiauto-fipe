@@ -1,5 +1,6 @@
 'use server'
 import { fetchGet } from '~/core/http/api'
+import { HttpError } from '~/core/http/errors'
 import { vehicleTypes } from '~/core/utils/types/vehicles'
 import { IFipeCalc } from '~/interfaces/api/fipe/fipeCalc'
 

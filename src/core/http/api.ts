@@ -11,7 +11,14 @@ export const fetchGet = async <T>(
       method: 'GET',
       ...options,
     })
-    return (await response.json()) as T
+
+    const responseData = (await response.json()) as T & object
+
+    if ('error' in responseData) {
+      throw handleError(responseData)
+    }
+
+    return responseData
   } catch (error) {
     throw handleError(error)
   }
@@ -31,7 +38,13 @@ export const fetchPost = async <T>(
       body: JSON.stringify(data),
       ...options,
     })
-    return (await response.json()) as T
+    const responseData = (await response.json()) as T & object
+
+    if ('error' in responseData) {
+      throw handleError(responseData)
+    }
+
+    return responseData
   } catch (error) {
     throw handleError(error)
   }
@@ -51,7 +64,13 @@ export const fetchPut = async <T>(
       body: JSON.stringify(data),
       ...options,
     })
-    return (await response.json()) as T
+    const responseData = (await response.json()) as T & object
+
+    if ('error' in responseData) {
+      throw handleError(responseData)
+    }
+
+    return responseData
   } catch (error) {
     throw handleError(error)
   }
@@ -66,7 +85,13 @@ export const fetchDelete = async <T>(
       method: 'DELETE',
       ...options,
     })
-    return (await response.json()) as T
+    const responseData = (await response.json()) as T & object
+
+    if ('error' in responseData) {
+      throw handleError(responseData)
+    }
+
+    return responseData
   } catch (error) {
     throw handleError(error)
   }

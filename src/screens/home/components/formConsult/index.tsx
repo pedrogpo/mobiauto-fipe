@@ -48,33 +48,29 @@ const FormConsult: React.FC<IFormConsultProps> = ({ brands }) => {
   const isBrandSelected = !!(currentBrand && currentBrand !== 'undefined')
   const isModelSelected = !!(currentModel && currentModel !== 'undefined')
 
-  const { models, years } = consultStore
+  const { models, years, loadingModels } = consultStore
 
   useEffect(() => {
+    setValue('model', null)
+    setValue('year', DEFAULT_SELECT_VALUE)
     if (isBrandSelected) {
-      setValue('model', null)
-      setValue('year', DEFAULT_SELECT_VALUE)
       consultStore
         .fetchModels('carros', currentBrand)
         .catch(() =>
           Toast({ message: 'Erro ao buscar modelos', type: 'error' }),
         )
     } else {
-      console.log('oi')
-      setValue('model', null)
-      setValue('year', DEFAULT_SELECT_VALUE)
       consultStore.setModels(null)
     }
   }, [currentBrand])
 
   useEffect(() => {
+    setValue('year', DEFAULT_SELECT_VALUE)
     if (isBrandSelected && isModelSelected) {
-      setValue('year', DEFAULT_SELECT_VALUE)
       consultStore
         .fetchYears('carros', currentBrand, currentModel)
         .catch(() => Toast({ message: 'Erro ao buscar anos', type: 'error' }))
     } else {
-      setValue('year', DEFAULT_SELECT_VALUE)
       consultStore.setYears(null)
     }
   }, [currentModel])
@@ -139,7 +135,14 @@ const FormConsult: React.FC<IFormConsultProps> = ({ brands }) => {
                 )
               }
               renderInput={(params) => (
-                <TextField {...params} label="Selecione o modelo" />
+                <TextField
+                  {...params}
+                  label={
+                    loadingModels
+                      ? 'Carregando modelos...'
+                      : 'Selecione o modelo'
+                  }
+                />
               )}
               disabled={!models || !isBrandSelected}
             />
