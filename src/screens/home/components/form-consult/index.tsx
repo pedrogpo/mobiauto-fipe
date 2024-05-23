@@ -19,6 +19,7 @@ import { consultStore } from '~/store/consult'
 import { useRouter } from 'next/navigation'
 import { useSnackbar } from '~/hooks/useSnackbarContext'
 import { vehicleOptions } from '~/core/utils/types/vehicles'
+import CheckCircleOutlineOutlinedIcon from '@mui/icons-material/CheckCircleOutlineOutlined'
 
 const DEFAULT_SELECT_VALUE = '0'
 
@@ -125,6 +126,17 @@ function FormConsult({ brands: brandsCached }: IFormConsultProps) {
           defaultValue="Carros"
           options={vehicleOptions.map((option) => option.label)}
           fullWidth
+          renderOption={(props, option) => {
+            const Icon = vehicleOptions.find(
+              (item) => item.label === option,
+            )?.icon
+            return (
+              <Box component="li" {...props}>
+                {Icon && <Icon sx={{ mr: 1 }} />}
+                {option}
+              </Box>
+            )
+          }}
           onChange={(event, value) =>
             setValue(
               'vehicle',
@@ -274,6 +286,7 @@ function FormConsult({ brands: brandsCached }: IFormConsultProps) {
           }
         >
           Consultar preço
+          <CheckCircleOutlineOutlinedIcon sx={{ ml: 1 }} fontSize="small" />
         </Button>
       </Box>
     </form>

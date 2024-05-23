@@ -5,6 +5,7 @@ import { observer } from 'mobx-react-lite'
 import Link from 'next/link'
 import useClientSideStore from '~/hooks/useClientSideStore'
 import { lastConsultsStore } from '~/store/lastConsults'
+import ChevronRightOutlinedIcon from '@mui/icons-material/ChevronRightOutlined'
 
 function LastConsults() {
   const lastConsults = useClientSideStore(lastConsultsStore)
@@ -62,6 +63,7 @@ function LastConsults() {
                       sx={{ mt: 1 }}
                     >
                       Ver detalhes
+                      <ChevronRightOutlinedIcon fontSize="small" />
                     </Button>
                   </Link>
                 </Box>
