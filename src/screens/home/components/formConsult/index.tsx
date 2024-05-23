@@ -25,9 +25,8 @@ interface IFormConsultProps {
   brands: IBrandResponse[]
 }
 
-function FormConsult({ brands }: IFormConsultProps) {
+const FormConsult: React.FC<IFormConsultProps> = ({ brands }) => {
   const router = useRouter()
-
   const {
     setValue,
     handleSubmit,
@@ -45,34 +44,29 @@ function FormConsult({ brands }: IFormConsultProps) {
 
   const currentBrand = watch('brand')
   const currentModel = watch('model')
-  const isBrandSelected = currentBrand && currentBrand !== 'undefined'
-  const isModelSelected = currentModel && currentModel !== 'undefined'
+  const isBrandSelected = Boolean(currentBrand && currentBrand !== 'undefined')
+  const isModelSelected = Boolean(currentModel && currentModel !== 'undefined')
 
-  const modelsList = consultStore.models
-  const yearsList = consultStore.years
+  const { models, years } = consultStore
 
   useEffect(() => {
     if (isBrandSelected) {
       setValue('model', null)
       setValue('year', DEFAULT_SELECT_VALUE)
-      consultStore.fetchModels('carros', currentBrand).catch(() =>
-        Toast({
-          message: 'Erro ao buscar modelos',
-          type: 'error',
-        }),
-      )
+      consultStore
+        .fetchModels('carros', currentBrand)
+        .catch(() =>
+          Toast({ message: 'Erro ao buscar modelos', type: 'error' }),
+        )
     }
   }, [currentBrand])
 
   useEffect(() => {
     if (isBrandSelected && isModelSelected) {
       setValue('year', DEFAULT_SELECT_VALUE)
-      consultStore.fetchYears('carros', currentBrand, currentModel).catch(() =>
-        Toast({
-          message: 'Erro ao buscar anos',
-          type: 'error',
-        }),
-      )
+      consultStore
+        .fetchYears('carros', currentBrand, currentModel)
+        .catch(() => Toast({ message: 'Erro ao buscar anos', type: 'error' }))
     }
   }, [currentModel])
 
@@ -95,15 +89,13 @@ function FormConsult({ brands }: IFormConsultProps) {
               value={
                 brands.find((brand) => brand.codigo === field.value)?.nome ||
                 null
-              } // provide a default value
+              }
               fullWidth
-              onChange={(event, values) =>
+              onChange={(event, value) =>
                 setValue(
                   'brand',
-                  brands.find((brand) => brand.nome === values)?.codigo || null,
-                  {
-                    shouldValidate: true,
-                  },
+                  brands.find((brand) => brand.nome === value)?.codigo || null,
+                  { shouldValidate: true },
                 )
               }
               renderInput={(params) => (
@@ -119,35 +111,33 @@ function FormConsult({ brands }: IFormConsultProps) {
           rules={{ required: true }}
           render={({ field }) => (
             <Autocomplete
-              options={modelsList?.modelos?.map((brand) => brand.nome) || []}
+              options={models?.modelos?.map((model) => model.nome) || []}
               {...field}
               value={
-                modelsList?.modelos?.find(
+                models?.modelos?.find(
                   (model) => String(model.codigo) === field.value,
                 )?.nome || null
-              } // provide a default value
+              }
               fullWidth
-              onChange={(event, values) => {
+              onChange={(event, value) =>
                 setValue(
                   'model',
                   String(
-                    modelsList?.modelos?.find((model) => model.nome === values)
+                    models?.modelos?.find((model) => model.nome === value)
                       ?.codigo,
                   ) || null,
-                  {
-                    shouldValidate: true,
-                  },
+                  { shouldValidate: true },
                 )
-              }}
+              }
               renderInput={(params) => (
                 <TextField {...params} label="Selecione o modelo" />
               )}
-              disabled={!modelsList || !isBrandSelected}
+              disabled={!models || !isBrandSelected}
             />
           )}
         />
 
-        {isBrandSelected && isModelSelected && yearsList && (
+        {isBrandSelected && isModelSelected && years && (
           <Controller
             name="year"
             control={control}
@@ -157,21 +147,18 @@ function FormConsult({ brands }: IFormConsultProps) {
               <Select
                 {...field}
                 onChange={(e) =>
-                  setValue('year', e.target.value, {
-                    shouldValidate: true,
-                  })
+                  setValue('year', e.target.value, { shouldValidate: true })
                 }
                 fullWidth
               >
                 <MenuItem value={DEFAULT_SELECT_VALUE} disabled>
                   Selecione o ano
                 </MenuItem>
-                {yearsList.length > 0 &&
-                  yearsList.map((item) => (
-                    <MenuItem key={item.codigo} value={item.codigo}>
-                      {item.nome}
-                    </MenuItem>
-                  ))}
+                {years.map((item) => (
+                  <MenuItem key={item.codigo} value={item.codigo}>
+                    {item.nome}
+                  </MenuItem>
+                ))}
               </Select>
             )}
           />
