@@ -1,11 +1,11 @@
 import { Grid, Typography } from '@mui/material'
 
-interface IErrorsScreenProps {
+interface IErrorScreenProps {
   title: string
   message: string
 }
 
-export default function ErrorsScreen({ title, message }: IErrorsScreenProps) {
+export default function ErrorScreen({ title, message }: IErrorScreenProps) {
   return (
     <Grid
       container

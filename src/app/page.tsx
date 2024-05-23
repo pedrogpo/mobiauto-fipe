@@ -1,6 +1,6 @@
 import HomeScreen from '~/screens/home'
+import ErrorScreen from '~/screens/errors'
 import { getBrands } from '~/actions/fipe/brands'
-import ErrorsScreen from '~/screens/errors'
 import { HttpError } from '~/core/http/errors'
 
 export default async function Page() {
@@ -10,7 +10,7 @@ export default async function Page() {
     return <HomeScreen brands={brands} />
   } catch (err) {
     return (
-      <ErrorsScreen
+      <ErrorScreen
         title="Erro ao buscar marcas"
         message={(err as HttpError).message}
       />

@@ -17,7 +17,7 @@ export default function FipeScreen({ fipe }: IFipeScreenProps) {
     >
       <Grid
         item
-        xs={4}
+        md={4}
         sx={{ p: 6, boxShadow: 8 }}
         display="flex"
         gap={2}

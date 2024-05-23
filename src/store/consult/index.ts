@@ -18,8 +18,6 @@ class ConsultStore {
 
   async fetchModels(vehicleType: vehicleTypes, brand: string) {
     this.loadingModels = true
-    this.models = null
-    this.years = null
     this.models = await getModels(vehicleType, brand).finally(() => {
       this.loadingModels = false
     })
@@ -27,10 +25,17 @@ class ConsultStore {
 
   async fetchYears(vehicleType: vehicleTypes, brand: string, model: string) {
     this.loadingYears = true
-    this.years = null
     this.years = await getYears(vehicleType, brand, model).finally(() => {
       this.loadingYears = false
     })
+  }
+
+  clearModels() {
+    this.models = null
+  }
+
+  clearYears() {
+    this.years = null
   }
 
   setYears(years: IYearsResponse[] | null) {

@@ -15,7 +15,7 @@ export default function HomeScreen({ brands }: IFormConsultProps) {
       textAlign="center"
       sx={{ minHeight: '100vh' }}
     >
-      <Grid item xs={4}>
+      <Grid item md={4}>
         <Typography variant="h4" fontWeight={900} component="h1">
           Tabela Fipe
         </Typography>

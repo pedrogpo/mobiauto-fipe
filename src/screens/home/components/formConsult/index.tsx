@@ -61,6 +61,8 @@ function FormConsult({ brands }: IFormConsultProps) {
     setValue('model', null)
     setValue('year', DEFAULT_SELECT_VALUE)
     if (isBrandSelected) {
+      consultStore.clearModels()
+      consultStore.clearYears()
       consultStore.fetchModels('carros', currentBrand).catch(() =>
         showSnackbar({
           message: 'Erro ao buscar modelos. Tente novamente mais tarde.',
@@ -75,6 +77,7 @@ function FormConsult({ brands }: IFormConsultProps) {
   useEffect(() => {
     setValue('year', DEFAULT_SELECT_VALUE)
     if (isBrandSelected && isModelSelected) {
+      consultStore.clearYears()
       consultStore.fetchYears('carros', currentBrand, currentModel).catch(() =>
         showSnackbar({
           message: 'Erro ao buscar anos. Tente novamente mais tarde.',
