@@ -1,6 +1,13 @@
 'use client'
 
-import { Box, Button, MenuItem, Select } from '@mui/material'
+import {
+  Autocomplete,
+  Box,
+  Button,
+  MenuItem,
+  Select,
+  TextField,
+} from '@mui/material'
 import { Control, Controller, useForm } from 'react-hook-form'
 import { IBrandResponse } from '~/interfaces/api/fipe/brands'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -38,15 +45,15 @@ function FormConsult({ brands }: IFormConsultProps) {
 
   const currentBrand = watch('brand')
   const currentModel = watch('model')
-  const isBrandSelected = currentBrand && currentBrand !== DEFAULT_SELECT_VALUE
-  const isModelSelected = currentModel && currentModel !== DEFAULT_SELECT_VALUE
+  const isBrandSelected = currentBrand && currentBrand !== 'undefined'
+  const isModelSelected = currentModel && currentModel !== 'undefined'
 
   const modelsList = consultStore.models
   const yearsList = consultStore.years
 
   useEffect(() => {
     if (isBrandSelected) {
-      setValue('model', DEFAULT_SELECT_VALUE)
+      setValue('model', null)
       setValue('year', DEFAULT_SELECT_VALUE)
       consultStore.fetchModels('carros', currentBrand).catch(() =>
         Toast({
@@ -58,7 +65,7 @@ function FormConsult({ brands }: IFormConsultProps) {
   }, [currentBrand])
 
   useEffect(() => {
-    if (isModelSelected) {
+    if (isBrandSelected && isModelSelected) {
       setValue('year', DEFAULT_SELECT_VALUE)
       consultStore.fetchYears('carros', currentBrand, currentModel).catch(() =>
         Toast({
@@ -80,61 +87,67 @@ function FormConsult({ brands }: IFormConsultProps) {
         <Controller
           name="brand"
           control={control}
-          defaultValue={DEFAULT_SELECT_VALUE}
           rules={{ required: true }}
           render={({ field }) => (
-            <Select
+            <Autocomplete
+              options={brands.map((brand) => brand.nome)}
               {...field}
-              onChange={(e) =>
-                setValue('brand', String(e.target.value), {
-                  shouldValidate: true,
-                })
-              }
-              sx={{ height: 40 }}
+              value={
+                brands.find((brand) => brand.codigo === field.value)?.nome ||
+                null
+              } // provide a default value
               fullWidth
-            >
-              <MenuItem value={DEFAULT_SELECT_VALUE} disabled>
-                Selecione a marca
-              </MenuItem>
-              {brands.map((item) => (
-                <MenuItem key={item.codigo} value={item.codigo}>
-                  {item.nome}
-                </MenuItem>
-              ))}
-            </Select>
+              onChange={(event, values) =>
+                setValue(
+                  'brand',
+                  brands.find((brand) => brand.nome === values)?.codigo || null,
+                  {
+                    shouldValidate: true,
+                  },
+                )
+              }
+              renderInput={(params) => (
+                <TextField {...params} label="Selecione a marca" />
+              )}
+            />
           )}
         />
 
         <Controller
           name="model"
           control={control}
-          defaultValue={DEFAULT_SELECT_VALUE}
           rules={{ required: true }}
           render={({ field }) => (
-            <Select
+            <Autocomplete
+              options={modelsList?.modelos?.map((brand) => brand.nome) || []}
               {...field}
-              onChange={(e) =>
-                setValue('model', String(e.target.value), {
-                  shouldValidate: true,
-                })
-              }
-              disabled={!modelsList || !isBrandSelected}
-              sx={{ height: 40 }}
+              value={
+                modelsList?.modelos?.find(
+                  (model) => String(model.codigo) === field.value,
+                )?.nome || null
+              } // provide a default value
               fullWidth
-            >
-              <MenuItem value={DEFAULT_SELECT_VALUE} disabled>
-                Selecione o modelo
-              </MenuItem>
-              {consultStore.models?.modelos?.map((item) => (
-                <MenuItem key={item.codigo} value={item.codigo}>
-                  {item.nome}
-                </MenuItem>
-              ))}
-            </Select>
+              onChange={(event, values) => {
+                setValue(
+                  'model',
+                  String(
+                    modelsList?.modelos?.find((model) => model.nome === values)
+                      ?.codigo,
+                  ) || null,
+                  {
+                    shouldValidate: true,
+                  },
+                )
+              }}
+              renderInput={(params) => (
+                <TextField {...params} label="Selecione o modelo" />
+              )}
+              disabled={!modelsList || !isBrandSelected}
+            />
           )}
         />
 
-        {isModelSelected && (
+        {isBrandSelected && isModelSelected && yearsList && (
           <Controller
             name="year"
             control={control}
@@ -144,21 +157,21 @@ function FormConsult({ brands }: IFormConsultProps) {
               <Select
                 {...field}
                 onChange={(e) =>
-                  setValue('year', String(e.target.value), {
+                  setValue('year', e.target.value, {
                     shouldValidate: true,
                   })
                 }
-                sx={{ height: 40 }}
                 fullWidth
               >
                 <MenuItem value={DEFAULT_SELECT_VALUE} disabled>
                   Selecione o ano
                 </MenuItem>
-                {yearsList?.map((item) => (
-                  <MenuItem key={item.codigo} value={item.codigo}>
-                    {item.nome}
-                  </MenuItem>
-                ))}
+                {yearsList.length > 0 &&
+                  yearsList.map((item) => (
+                    <MenuItem key={item.codigo} value={item.codigo}>
+                      {item.nome}
+                    </MenuItem>
+                  ))}
               </Select>
             )}
           />
