@@ -22,24 +22,24 @@ export const httpErrors = {
 }
 
 export const handleError = (err: any): HttpError => {
-  if (!err.response) {
+  if (!err.message || !err.statusCode) {
     return httpErrors.internalServerError('Something went wrong')
   }
 
-  if (err.response.status === 500) {
-    return httpErrors.internalServerError('Internal Server Error')
+  if (err.statusCode === 500) {
+    return httpErrors.internalServerError(err.message)
   }
 
-  if (err.response.status === 403) {
+  if (err.statusCode === 403) {
     return httpErrors.forbidden("You don't have permission to do this.")
   }
 
-  if (err.response.status === 405) {
+  if (err.statusCode === 405) {
     return httpErrors.methodNotAllowed('Method Not Allowed')
   }
 
   return {
-    message: err.response.data.message,
-    statusCode: err.response.status,
+    message: err.message,
+    statusCode: err.statusCode,
   }
 }

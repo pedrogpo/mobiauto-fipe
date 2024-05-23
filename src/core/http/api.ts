@@ -14,7 +14,7 @@ export const fetchGet = async <T>(
 
     const responseData = (await response.json()) as T & object
 
-    if ('error' in responseData) {
+    if ('error' in responseData || !response) {
       throw handleError(responseData)
     }
 
@@ -40,7 +40,7 @@ export const fetchPost = async <T>(
     })
     const responseData = (await response.json()) as T & object
 
-    if ('error' in responseData) {
+    if ('error' in responseData || !response.ok) {
       throw handleError(responseData)
     }
 
@@ -66,7 +66,7 @@ export const fetchPut = async <T>(
     })
     const responseData = (await response.json()) as T & object
 
-    if ('error' in responseData) {
+    if ('error' in responseData || !response.ok) {
       throw handleError(responseData)
     }
 
@@ -87,7 +87,7 @@ export const fetchDelete = async <T>(
     })
     const responseData = (await response.json()) as T & object
 
-    if ('error' in responseData) {
+    if ('error' in responseData || !response.ok) {
       throw handleError(responseData)
     }
 
