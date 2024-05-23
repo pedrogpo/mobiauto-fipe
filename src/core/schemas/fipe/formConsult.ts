@@ -1,6 +1,8 @@
 import * as z from 'zod'
+import { IVehicleOption, vehicleOptions } from '~/core/utils/types/vehicles'
 
 export const formConsult = z.object({
+  vehicle: z.custom<IVehicleOption>().default(vehicleOptions[0]),
   brand: z
     .string()
     .refine((data) => data !== null && data !== 'undefined', {

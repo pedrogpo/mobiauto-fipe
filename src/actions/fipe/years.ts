@@ -9,7 +9,7 @@ export const getYears = async (
   modelId: string,
 ) => {
   const item = await fetchGet<IYearsResponse[]>(
-    `/${vehicleType}/marcas/${brandId}/modelos/${modelId}/anos`,
+    `/${vehicleType.toLowerCase()}/marcas/${brandId}/modelos/${modelId}/anos`,
   )
 
   return item

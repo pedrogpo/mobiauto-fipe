@@ -18,6 +18,12 @@ import { observer } from 'mobx-react-lite'
 import { consultStore } from '~/store/consult'
 import { useRouter } from 'next/navigation'
 import { useSnackbar } from '~/hooks/useSnackbarContext'
+import {
+  IVehicleOption,
+  vehicleOptions,
+  vehicleTypes,
+} from '~/core/utils/types/vehicles'
+import { getBrands } from '~/actions/fipe/brands'
 
 const DEFAULT_SELECT_VALUE = '0'
 
@@ -25,7 +31,7 @@ interface IFormConsultProps {
   brands: IBrandResponse[]
 }
 
-function FormConsult({ brands }: IFormConsultProps) {
+function FormConsult({ brands: brandsCached }: IFormConsultProps) {
   const { showSnackbar } = useSnackbar()
 
   const router = useRouter()
@@ -53,30 +59,42 @@ function FormConsult({ brands }: IFormConsultProps) {
     }
 
     setIsLoadingButton(true)
-    router.push(`/fipe/${data.brand}/${data.model}/${data.year}`)
+    router.push(
+      `/fipe/${data.vehicle.value}/${data.brand}/${data.model}/${data.year}`,
+    )
   }
 
+  const currentVehicle = watch('vehicle') || vehicleOptions[0]
   const currentBrand = watch('brand')
   const currentModel = watch('model')
+
   const isBrandSelected = !!(currentBrand && currentBrand !== 'undefined')
   const isModelSelected = !!(currentModel && currentModel !== 'undefined')
 
-  const { models, years, loadingModels } = consultStore
+  const { brands, models, years, loadingModels, loadingBrands } = consultStore
+
+  const brandList = brands || brandsCached
+
+  useEffect(() => {
+    if (currentVehicle) {
+      consultStore.clearModels()
+      consultStore.clearYears()
+      consultStore.fetchBrands(currentVehicle.value)
+    }
+  }, [currentVehicle])
 
   useEffect(() => {
     setValue('model', null)
     setValue('year', DEFAULT_SELECT_VALUE)
+    consultStore.clearModels()
     if (isBrandSelected) {
-      consultStore.clearModels()
       consultStore.clearYears()
-      consultStore.fetchModels('carros', currentBrand).catch(() =>
+      consultStore.fetchModels(currentVehicle.value, currentBrand).catch(() =>
         showSnackbar({
           message: 'Erro ao buscar modelos. Tente novamente mais tarde.',
           variant: 'error',
         }),
       )
-    } else {
-      consultStore.setModels(null)
     }
   }, [currentBrand])
 
@@ -84,12 +102,14 @@ function FormConsult({ brands }: IFormConsultProps) {
     setValue('year', DEFAULT_SELECT_VALUE)
     if (isBrandSelected && isModelSelected) {
       consultStore.clearYears()
-      consultStore.fetchYears('carros', currentBrand, currentModel).catch(() =>
-        showSnackbar({
-          message: 'Erro ao buscar anos. Tente novamente mais tarde.',
-          variant: 'error',
-        }),
-      )
+      consultStore
+        .fetchYears(currentVehicle.value, currentBrand, currentModel)
+        .catch(() =>
+          showSnackbar({
+            message: 'Erro ao buscar anos. Tente novamente mais tarde.',
+            variant: 'error',
+          }),
+        )
     } else {
       consultStore.setYears(null)
     }
@@ -103,29 +123,54 @@ function FormConsult({ brands }: IFormConsultProps) {
         flexDirection="column"
         gap={2}
       >
+        <Autocomplete
+          defaultValue="Carros"
+          options={vehicleOptions.map((option) => option.label)}
+          fullWidth
+          onChange={(event, value) =>
+            setValue(
+              'vehicle',
+              {
+                label: value || 'Carros',
+                value:
+                  vehicleOptions.find((option) => option.label === value)
+                    ?.value || 'carros',
+              },
+              {
+                shouldValidate: true,
+              },
+            )
+          }
+          renderInput={(params) => (
+            <TextField {...params} label="Selecione o tipo" />
+          )}
+        />
+
         <Controller
           name="brand"
           control={control}
           rules={{ required: true }}
           render={({ field }) => (
             <Autocomplete
-              options={brands.map((brand) => brand.nome)}
+              options={brandList.map((brand) => brand.nome)}
               {...field}
               value={
-                brands.find((brand) => brand.codigo === field.value)?.nome ||
+                brandList.find((brand) => brand.codigo === field.value)?.nome ||
                 null
               }
               fullWidth
               onChange={(event, value) =>
                 setValue(
                   'brand',
-                  brands.find((brand) => brand.nome === value)?.codigo || null,
+                  brandList.find((brand) => brand.nome === value)?.codigo ||
+                    null,
                   { shouldValidate: true },
                 )
               }
               renderInput={(params) => (
                 <TextField {...params} label="Selecione a marca" />
               )}
+              disabled={!brandList || loadingBrands}
             />
           )}
         />
