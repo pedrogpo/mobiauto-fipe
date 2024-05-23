@@ -1,6 +1,5 @@
 'use server'
 import { fetchGet } from '~/core/http/api'
-import { HttpError } from '~/core/http/errors'
 import { IBrandResponse } from '~/interfaces/api/fipe/brands'
 
 type vehicleTypes = 'carros' | 'motos' | 'caminhoes'

@@ -14,6 +14,7 @@ const customJestConfig = {
     '/.next/',
     '<rootDir>/src/__tests__/setupTests.ts',
   ],
+  roots: ['<rootDir>'],
   setupFilesAfterEnv: ['<rootDir>/src/__tests__/setupTests.ts'],
   transform: {
     '^.+\\.(js|jsx|ts|tsx)$': '<rootDir>/node_modules/babel-jest',
@@ -21,6 +22,7 @@ const customJestConfig = {
   moduleNameMapper: {
     '\\.(scss|css|sass)$': 'identity-obj-proxy',
     '^~/(.*)$': '<rootDir>/src/$1',
+    '^~/(.*)': '<rootDir>/src/$1',
   },
   collectCoverage: true,
   collectCoverageFrom: ['src/.*'],
