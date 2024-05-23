@@ -149,34 +149,46 @@ function FormConsult({ brands: brandsCached }: IFormConsultProps) {
           )}
         />
 
-        <Controller
-          name="brand"
-          control={control}
-          rules={{ required: true }}
-          render={({ field }) => (
-            <Autocomplete
-              options={brandList.map((brand) => brand.nome)}
-              {...field}
-              value={
-                brandList.find((brand) => brand.codigo === field.value)?.nome ||
-                null
-              }
-              fullWidth
-              onChange={(event, value) =>
-                setValue(
-                  'brand',
-                  brandList.find((brand) => brand.nome === value)?.codigo ||
-                    null,
-                  { shouldValidate: true },
-                )
-              }
-              renderInput={(params) => (
-                <TextField {...params} label="Selecione a marca" />
-              )}
-              disabled={!brandList || loadingBrands}
-            />
+        <Box position="relative">
+          <Controller
+            name="brand"
+            control={control}
+            rules={{ required: true }}
+            render={({ field }) => (
+              <Autocomplete
+                options={brandList.map((brand) => brand.nome)}
+                {...field}
+                value={
+                  brandList.find((brand) => brand.codigo === field.value)
+                    ?.nome || null
+                }
+                fullWidth
+                onChange={(event, value) =>
+                  setValue(
+                    'brand',
+                    brandList.find((brand) => brand.nome === value)?.codigo ||
+                      null,
+                    { shouldValidate: true },
+                  )
+                }
+                renderInput={(params) => (
+                  <TextField {...params} label="Selecione a marca" />
+                )}
+                disabled={!brandList || loadingBrands}
+              />
+            )}
+          />
+          {loadingBrands && (
+            <Box
+              position="absolute"
+              right={40}
+              top="50%"
+              sx={{ transform: 'translateY(-50%)', height: 20 }}
+            >
+              <CircularProgress size={20} />
+            </Box>
           )}
-        />
+        </Box>
 
         <Box position="relative">
           <Controller
