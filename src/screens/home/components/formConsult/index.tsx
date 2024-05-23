@@ -35,18 +35,24 @@ function FormConsult({ brands }: IFormConsultProps) {
     handleSubmit,
     watch,
     control,
-    formState: { isValid },
+    formState: { isValid: isFormValid },
   } = useForm<FormConsultType>({
     resolver: zodResolver(formConsult),
     mode: 'onChange',
   })
 
-  const [loadingButton, setLoadingButton] = useState<boolean>(false)
+  const [isLoadingButton, setIsLoadingButton] = useState<boolean>(false)
 
   const onSubmit = async (data: FormConsultType) => {
-    if (data.brand === 'undefined' || data.model === 'undefined') return
+    if (data.brand === 'undefined' || data.model === 'undefined') {
+      showSnackbar({
+        message: 'Selecione a marca e o modelo para continuar.',
+        variant: 'warning',
+      })
+      return
+    }
 
-    setLoadingButton(true)
+    setIsLoadingButton(true)
     router.push(`/fipe/${data.brand}/${data.model}/${data.year}`)
   }
 
@@ -203,13 +209,13 @@ function FormConsult({ brands }: IFormConsultProps) {
         )}
 
         <Button
-          disabled={!isValid}
+          disabled={!isFormValid}
           variant="contained"
           color="primary"
           type="submit"
           sx={{ alignSelf: 'center', px: 6 }}
           startIcon={
-            loadingButton && <CircularProgress color="inherit" size={20} />
+            isLoadingButton && <CircularProgress color="inherit" size={20} />
           }
         >
           Consultar preço

@@ -1,5 +1,5 @@
 import { Grid, Typography } from '@mui/material'
-import FormConsult from './components/formConsult'
+import FormConsult from './components/FormConsult'
 import { IBrandResponse } from '~/interfaces/api/fipe/brands'
 
 interface IFormConsultProps {
