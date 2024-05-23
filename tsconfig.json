@@ -33,5 +33,5 @@
     ".react-email/emails/index.tsx",
     ".next/types/**/*.ts"
   ],
-  "exclude": ["node_modules", "cypress"]
+  "exclude": ["node_modules", "cypress", "./cypress.config.ts"]
 }
