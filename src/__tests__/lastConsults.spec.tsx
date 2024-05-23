@@ -1,5 +1,5 @@
 import { IFipeCalcWithIds } from '~/interfaces/api/fipe/fipeCalc'
-import { LastConsultsStore, lastConsultsStore } from '../store/lastConsults'
+import { LastConsultsStore } from '../store/lastConsults'
 
 jest.mock('localforage', () => ({
   getItem: jest.fn().mockResolvedValue(null),

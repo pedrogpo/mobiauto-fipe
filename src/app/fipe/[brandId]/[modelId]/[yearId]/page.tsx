@@ -1,3 +1,4 @@
+import { Metadata, ResolvingMetadata } from 'next'
 import { fipeCalc } from '~/actions/fipe/fipeCalc'
 import { HttpError } from '~/core/http/errors'
 import ErrorScreen from '~/screens/errors'
@@ -9,12 +10,27 @@ interface IFipeProps {
   yearId: string
 }
 
-export default async function Page({
+export async function generateMetadata({
   params: { brandId, modelId, yearId },
 }: {
   params: IFipeProps
+}): Promise<Metadata> {
+  const fipeData = await fipeCalc('carros', brandId, modelId, yearId)
+
+  return {
+    title: `Consulta ${fipeData.Marca} - ${fipeData.Modelo} | ${fipeData.AnoModelo}`,
+  }
+}
+
+export default async function Page({
+  params: { brandId, modelId, yearId },
+  event,
+}: {
+  params: IFipeProps
+  event: any
 }) {
   try {
+    // ** adendo: não está chamando 2x a API, pois o Next.js vai fazer o cache da primeira chamada (datafetching)
     const fipeData = await fipeCalc('carros', brandId, modelId, yearId)
 
     return (

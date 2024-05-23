@@ -10,7 +10,14 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
+    <html lang="pt-br">
+      <head>
+        <title>Consultar Fipe</title>
+        <link
+          rel="icon"
+          href="https://www.mobiauto.com.br/icons/favicon-32x32.png"
+        />
+      </head>
       <body>
         <SnackbarProvider>
           <AppRouterCacheProvider>
