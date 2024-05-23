@@ -46,7 +46,7 @@ export class LastConsultsStore {
       return
     }
 
-    this.list.push(consult)
+    this.list.unshift(consult)
   }
 
   removeConsult(index: number) {

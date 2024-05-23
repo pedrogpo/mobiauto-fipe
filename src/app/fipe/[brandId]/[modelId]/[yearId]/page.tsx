@@ -24,10 +24,8 @@ export async function generateMetadata({
 
 export default async function Page({
   params: { brandId, modelId, yearId },
-  event,
 }: {
   params: IFipeProps
-  event: any
 }) {
   try {
     // ** adendo: não está chamando 2x a API, pois o Next.js vai fazer o cache da primeira chamada (datafetching)

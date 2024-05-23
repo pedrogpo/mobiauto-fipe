@@ -30,45 +30,42 @@ function LastConsults() {
           </Box>
           <Box mt={2}>
             {lastConsults &&
-              lastConsults.list
-                .toReversed()
-                .slice(0, 3)
-                .map((consult, index) => (
-                  <Box
-                    key={index}
-                    bgcolor="#F4F4F4"
-                    p={2}
-                    mb={2}
-                    borderRadius={2}
-                    sx={{ boxShadow: 1 }}
+              lastConsults.list.slice(0, 3).map((consult, index) => (
+                <Box
+                  key={index}
+                  bgcolor="#F4F4F4"
+                  p={2}
+                  mb={2}
+                  borderRadius={2}
+                  sx={{ boxShadow: 1 }}
+                >
+                  <Typography fontSize={18} fontWeight={900} component="h3">
+                    {consult.Marca}
+                    <small>
+                      {''} - {consult.Modelo} | {consult.AnoModelo}
+                    </small>
+                  </Typography>
+                  <Typography
+                    fontWeight={800}
+                    component="p"
+                    sx={{ opacity: 0.8 }}
                   >
-                    <Typography fontSize={18} fontWeight={900} component="h3">
-                      {consult.Marca}
-                      <small>
-                        {''} - {consult.Modelo} | {consult.AnoModelo}
-                      </small>
-                    </Typography>
-                    <Typography
-                      fontWeight={800}
-                      component="p"
-                      sx={{ opacity: 0.8 }}
+                    {consult.Valor}
+                  </Typography>
+                  <Link
+                    href={`/fipe/${consult.brandId}/${consult.modelId}/${consult.yearId}`}
+                  >
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      size="small"
+                      sx={{ mt: 1 }}
                     >
-                      {consult.Valor}
-                    </Typography>
-                    <Link
-                      href={`/fipe/${consult.brandId}/${consult.modelId}/${consult.yearId}`}
-                    >
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        size="small"
-                        sx={{ mt: 1 }}
-                      >
-                        Ver detalhes
-                      </Button>
-                    </Link>
-                  </Box>
-                ))}
+                      Ver detalhes
+                    </Button>
+                  </Link>
+                </Box>
+              ))}
           </Box>
         </Box>
       )}
