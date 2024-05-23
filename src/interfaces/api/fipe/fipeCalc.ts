@@ -1,3 +1,5 @@
+import { vehicleTypes } from '~/core/utils/types/vehicles'
+
 export interface IFipeCalc {
   TipoVeiculo: number
   Valor: string
@@ -11,6 +13,7 @@ export interface IFipeCalc {
 }
 
 export interface IFipeCalcWithIds extends IFipeCalc {
+  vehicle: vehicleTypes
   brandId: string
   modelId: string
   yearId: string

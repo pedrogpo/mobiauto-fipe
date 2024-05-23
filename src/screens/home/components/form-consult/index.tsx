@@ -18,12 +18,7 @@ import { observer } from 'mobx-react-lite'
 import { consultStore } from '~/store/consult'
 import { useRouter } from 'next/navigation'
 import { useSnackbar } from '~/hooks/useSnackbarContext'
-import {
-  IVehicleOption,
-  vehicleOptions,
-  vehicleTypes,
-} from '~/core/utils/types/vehicles'
-import { getBrands } from '~/actions/fipe/brands'
+import { vehicleOptions } from '~/core/utils/types/vehicles'
 
 const DEFAULT_SELECT_VALUE = '0'
 

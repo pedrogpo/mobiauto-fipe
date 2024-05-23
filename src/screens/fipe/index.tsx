@@ -20,11 +20,13 @@ function FipeScreen(fipeData: IFipeCalcWithIds) {
     brandId,
     modelId,
     yearId,
+    vehicle,
   } = fipeData
 
   useEffect(() => {
     lastConsultsStore.addConsult({
       ...fipeData,
+      vehicle,
       brandId,
       modelId,
       yearId,

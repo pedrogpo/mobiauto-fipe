@@ -45,6 +45,7 @@ export class LastConsultsStore {
     if (
       this.list.some(
         (item) =>
+          item.vehicle === consult.vehicle &&
           item.brandId === consult.brandId &&
           item.modelId === consult.modelId &&
           item.yearId === consult.yearId,

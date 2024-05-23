@@ -39,6 +39,7 @@ export default async function Page({
         brandId={brandId}
         modelId={modelId}
         yearId={yearId}
+        vehicle={vehicle}
       />
     )
   } catch (err) {

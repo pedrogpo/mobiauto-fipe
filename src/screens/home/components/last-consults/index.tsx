@@ -53,7 +53,7 @@ function LastConsults() {
                     {consult.Valor}
                   </Typography>
                   <Link
-                    href={`/fipe/${consult.brandId}/${consult.modelId}/${consult.yearId}`}
+                    href={`/fipe/${consult.vehicle}/${consult.brandId}/${consult.modelId}/${consult.yearId}`}
                   >
                     <Button
                       variant="contained"
