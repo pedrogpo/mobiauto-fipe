@@ -14,7 +14,7 @@ export const fetchGet = async <T>(
 
     const responseData = (await response.json()) as T & object
 
-    if ('error' in responseData || !response) {
+    if ('error' in responseData || !response.ok) {
       throw handleError(responseData)
     }
 

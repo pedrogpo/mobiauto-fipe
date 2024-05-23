@@ -18,7 +18,6 @@ import { observer } from 'mobx-react-lite'
 import { consultStore } from '~/store/consult'
 import { useRouter } from 'next/navigation'
 import { useSnackbar } from '~/hooks/useSnackbarContext'
-import { lastConsultsStore } from '~/store/lastConsults'
 
 const DEFAULT_SELECT_VALUE = '0'
 

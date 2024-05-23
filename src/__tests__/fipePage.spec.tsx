@@ -1,5 +1,5 @@
-import { findByLabelText, render } from '@testing-library/react'
-import Page from '../app/fipe/[brandId]/[model]/[year]/page'
+import { render } from '@testing-library/react'
+import Page from '../app/fipe/[brandId]/[modelId]/[yearId]/page'
 import { HttpError } from '~/core/http/errors'
 import { IFipeCalc } from '~/interfaces/api/fipe/fipeCalc'
 
@@ -10,8 +10,8 @@ jest.mock('~/actions/fipe/fipeCalc', () => ({
 const mockParams = {
   params: {
     brandId: '1',
-    model: 'A3',
-    year: '2003',
+    modelId: 'A3',
+    yearId: '2003',
   },
 }
 
