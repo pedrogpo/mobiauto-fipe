@@ -5,7 +5,7 @@ import { vehicleTypes } from '~/core/utils/types/vehicles'
 import { IModelsResponse } from '~/interfaces/api/fipe/models'
 import { IYearsResponse } from '~/interfaces/api/fipe/years'
 
-class ConsultStore {
+export class ConsultStore {
   models: IModelsResponse | null = null
   years: IYearsResponse[] | null = null
 
