@@ -5,7 +5,7 @@ import { vehicleTypes } from '~/core/utils/types/vehicles'
 import ErrorScreen from '~/screens/errors'
 import FipeScreen from '~/screens/fipe'
 
-interface IFipeProps {
+export interface IFipeProps {
   vehicle: vehicleTypes
   brandId: string
   modelId: string

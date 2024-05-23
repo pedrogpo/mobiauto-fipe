@@ -1,5 +1,7 @@
 import { render } from '@testing-library/react'
-import Page from '../app/fipe/[brandId]/[modelId]/[yearId]/page'
+import Page, {
+  IFipeProps,
+} from '../app/fipe/[vehicle]/[brandId]/[modelId]/[yearId]/page'
 import { HttpError } from '~/core/http/errors'
 import { IFipeCalc } from '~/interfaces/api/fipe/fipeCalc'
 
@@ -7,11 +9,16 @@ jest.mock('~/actions/fipe/fipeCalc', () => ({
   fipeCalc: jest.fn(),
 }))
 
-const mockParams = {
+interface IMockParams {
+  params: IFipeProps
+}
+
+const mockParams: IMockParams = {
   params: {
     brandId: '1',
     modelId: 'A3',
     yearId: '2003',
+    vehicle: 'carros',
   },
 }
 
@@ -25,7 +32,16 @@ describe('FormConsult component', () => {
       throw new Error(ERR_MESSAGE)
     })
 
-    render(await Page(mockParams))
+    render(
+      await Page({
+        params: {
+          vehicle: 'carros',
+          brandId: '1',
+          modelId: 'A3',
+          yearId: '2003',
+        },
+      }),
+    )
   })
 
   it('renders ErrorScreen when fipeCalc fails with any error', async () => {
