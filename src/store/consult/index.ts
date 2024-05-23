@@ -24,6 +24,14 @@ class ConsultStore {
     this.years = null
     this.years = await getYears(vehicleType, brand, model)
   }
+
+  setYears(years: IYearsResponse[] | null) {
+    this.years = years
+  }
+
+  setModels(models: IModelsResponse | null) {
+    this.models = models
+  }
 }
 
 export const consultStore = new ConsultStore()

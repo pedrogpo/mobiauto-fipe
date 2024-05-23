@@ -8,16 +8,15 @@ import {
   Select,
   TextField,
 } from '@mui/material'
-import { Control, Controller, useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import { IBrandResponse } from '~/interfaces/api/fipe/brands'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { FormConsultType, formConsult } from '~/core/schemas/fipe/formConsult'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
 import { consultStore } from '~/store/consult'
 import { useRouter } from 'next/navigation'
 import Toast from '~/core/toast'
-import Snackbar from '@mui/material/Snackbar'
 
 const DEFAULT_SELECT_VALUE = '0'
 
@@ -44,8 +43,8 @@ const FormConsult: React.FC<IFormConsultProps> = ({ brands }) => {
 
   const currentBrand = watch('brand')
   const currentModel = watch('model')
-  const isBrandSelected = Boolean(currentBrand && currentBrand !== 'undefined')
-  const isModelSelected = Boolean(currentModel && currentModel !== 'undefined')
+  const isBrandSelected = !!(currentBrand && currentBrand !== 'undefined')
+  const isModelSelected = !!(currentModel && currentModel !== 'undefined')
 
   const { models, years } = consultStore
 
@@ -67,6 +66,9 @@ const FormConsult: React.FC<IFormConsultProps> = ({ brands }) => {
       consultStore
         .fetchYears('carros', currentBrand, currentModel)
         .catch(() => Toast({ message: 'Erro ao buscar anos', type: 'error' }))
+    } else {
+      setValue('year', DEFAULT_SELECT_VALUE)
+      consultStore.setYears(null)
     }
   }, [currentModel])
 
