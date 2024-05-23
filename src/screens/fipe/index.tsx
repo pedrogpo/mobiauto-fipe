@@ -1,12 +1,17 @@
-import { Box, Container, Grid, Typography } from '@mui/material'
-import Link from 'next/link'
+import { Grid, Typography } from '@mui/material'
 import { IFipeCalc } from '~/interfaces/api/fipe/fipeCalc'
+import { FipeBox } from './components/FipeBox'
+import { FipeDetail } from './components/FipeDetail'
+import { FipeValueBox } from './components/FipeValueBox'
+import { BackLink } from './components/BackLink'
 
-interface IFipeScreenProps {
-  fipe: IFipeCalc
-}
-
-export default function FipeScreen({ fipe }: IFipeScreenProps) {
+export default function FipeScreen({
+  AnoModelo,
+  Combustivel,
+  Marca,
+  Modelo,
+  Valor,
+}: IFipeCalc) {
   return (
     <Grid
       container
@@ -24,44 +29,22 @@ export default function FipeScreen({ fipe }: IFipeScreenProps) {
         flexDirection="column"
         borderRadius={2}
       >
+        <FipeBox title="Tabela FIPE" />
         <Typography
           variant="h4"
           fontWeight={900}
           fontStyle="italic"
           component="h1"
         >
-          {fipe.Marca}
+          {Marca}
         </Typography>
         <Typography fontSize={20} fontWeight={500} component="p">
-          {fipe.Modelo}
+          {Modelo}
         </Typography>
-        <Typography fontSize={20} fontWeight={700} component="p">
-          Ano: {fipe.AnoModelo}
-        </Typography>{' '}
-        <Typography fontSize={20} fontWeight={700} component="p">
-          Combustível: {fipe.Combustivel}
-        </Typography>
-        <Typography
-          fontSize={20}
-          fontWeight={700}
-          component="p"
-          sx={{ p: 2 }}
-          bgcolor="#00A38C"
-          color="white"
-          borderRadius={2}
-        >
-          Valor: {fipe.Valor}
-        </Typography>
-        <Link href="/" style={{ textDecoration: 'none' }}>
-          <Typography
-            fontSize={16}
-            fontWeight={700}
-            component="p"
-            color="#00A38C"
-          >
-            Consultar outro veículo
-          </Typography>
-        </Link>
+        <FipeDetail label="Ano" value={AnoModelo} />
+        <FipeDetail label="Combustível" value={Combustivel} />
+        <FipeValueBox value={Valor} />
+        <BackLink />
       </Grid>
     </Grid>
   )

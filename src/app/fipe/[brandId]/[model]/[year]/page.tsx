@@ -12,7 +12,7 @@ export default async function Page({
 }: {
   params: IFipeProps
 }) {
-  const fipe = await fipeCalc('carros', brandId, model, year)
+  const fipeData = await fipeCalc('carros', brandId, model, year)
 
-  return <FipeScreen fipe={fipe} />
+  return <FipeScreen {...fipeData} />
 }
