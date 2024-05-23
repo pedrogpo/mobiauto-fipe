@@ -18,7 +18,7 @@ export async function generateMetadata({
   const fipeData = await fipeCalc('carros', brandId, modelId, yearId)
 
   return {
-    title: `Consulta ${fipeData.Marca} - ${fipeData.Modelo} | ${fipeData.AnoModelo}`,
+    title: `${fipeData.Marca} - ${fipeData.Modelo} | ${fipeData.AnoModelo}`,
   }
 }
 
