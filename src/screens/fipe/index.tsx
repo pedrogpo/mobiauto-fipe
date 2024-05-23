@@ -22,6 +22,7 @@ export default function FipeScreen({ fipe }: IFipeScreenProps) {
         display="flex"
         gap={2}
         flexDirection="column"
+        borderRadius={2}
       >
         <Typography
           variant="h4"
@@ -47,6 +48,7 @@ export default function FipeScreen({ fipe }: IFipeScreenProps) {
           sx={{ p: 2 }}
           bgcolor="#00A38C"
           color="white"
+          borderRadius={2}
         >
           Valor: {fipe.Valor}
         </Typography>
