@@ -4,7 +4,6 @@ import { vehicleTypes } from '~/core/utils/types/vehicles'
 import { IBrandResponse } from '~/interfaces/api/fipe/brands'
 
 export const getBrands = async (vehicleType: vehicleTypes) => {
-  console.log(vehicleType)
   const item = await fetchGet<IBrandResponse[]>(
     `/${vehicleType.toLowerCase()}/marcas`,
     {
