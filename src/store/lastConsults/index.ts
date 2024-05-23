@@ -13,7 +13,7 @@ import { enableStaticRendering } from 'mobx-react-lite'
 const isServer = typeof window === 'undefined'
 enableStaticRendering(isServer)
 
-class LastConsultsStore {
+export class LastConsultsStore {
   list: IFipeCalcWithIds[] = []
 
   constructor() {
