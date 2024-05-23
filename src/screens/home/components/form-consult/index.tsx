@@ -157,6 +157,7 @@ function FormConsult({ brands: brandsCached }: IFormConsultProps) {
           renderInput={(params) => (
             <TextField {...params} label="Selecione o tipo" />
           )}
+          noOptionsText="Nenhum veículo encontrado"
         />
 
         <Box position="relative">
@@ -185,6 +186,7 @@ function FormConsult({ brands: brandsCached }: IFormConsultProps) {
                   <TextField {...params} label="Selecione a marca" />
                 )}
                 disabled={!brandList || loadingBrands}
+                noOptionsText="Nenhuma marca encontrada"
               />
             )}
           />
