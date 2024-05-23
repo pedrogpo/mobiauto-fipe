@@ -76,6 +76,9 @@ function FormConsult({ brands: brandsCached }: IFormConsultProps) {
   const brandList = brands || brandsCached
 
   useEffect(() => {
+    setValue('brand', null)
+    setValue('model', null)
+    setValue('year', DEFAULT_SELECT_VALUE)
     if (currentVehicle) {
       consultStore.clearModels()
       consultStore.clearYears()
