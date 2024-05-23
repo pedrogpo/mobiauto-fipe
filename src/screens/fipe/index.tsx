@@ -1,17 +1,36 @@
+'use client'
+
 import { Grid, Typography } from '@mui/material'
-import { IFipeCalc } from '~/interfaces/api/fipe/fipeCalc'
+import { IFipeCalcWithIds } from '~/interfaces/api/fipe/fipeCalc'
 import { FipeBox } from './components/FipeBox'
 import { FipeDetail } from './components/FipeDetail'
 import { FipeValueBox } from './components/FipeValueBox'
 import { BackLink } from './components/BackLink'
+import { observer } from 'mobx-react-lite'
+import { lastConsultsStore } from '~/store/lastConsults'
+import { useEffect } from 'react'
 
-export default function FipeScreen({
-  AnoModelo,
-  Combustivel,
-  Marca,
-  Modelo,
-  Valor,
-}: IFipeCalc) {
+function FipeScreen(fipeData: IFipeCalcWithIds) {
+  const {
+    AnoModelo,
+    Combustivel,
+    Marca,
+    Modelo,
+    Valor,
+    brandId,
+    modelId,
+    yearId,
+  } = fipeData
+
+  useEffect(() => {
+    lastConsultsStore.addConsult({
+      ...fipeData,
+      brandId,
+      modelId,
+      yearId,
+    })
+  }, [])
+
   return (
     <Grid
       container
@@ -49,3 +68,5 @@ export default function FipeScreen({
     </Grid>
   )
 }
+
+export default observer(FipeScreen)

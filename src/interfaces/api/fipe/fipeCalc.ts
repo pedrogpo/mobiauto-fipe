@@ -9,3 +9,9 @@ export interface IFipeCalc {
   MesReferencia: string
   SiglaCombustivel: string
 }
+
+export interface IFipeCalcWithIds extends IFipeCalc {
+  brandId: string
+  modelId: string
+  yearId: string
+}

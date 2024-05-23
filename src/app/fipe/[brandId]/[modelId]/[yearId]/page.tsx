@@ -5,19 +5,26 @@ import FipeScreen from '~/screens/fipe'
 
 interface IFipeProps {
   brandId: string
-  model: string
-  year: string
+  modelId: string
+  yearId: string
 }
 
 export default async function Page({
-  params: { brandId, model, year },
+  params: { brandId, modelId, yearId },
 }: {
   params: IFipeProps
 }) {
   try {
-    const fipeData = await fipeCalc('carros', brandId, model, year)
+    const fipeData = await fipeCalc('carros', brandId, modelId, yearId)
 
-    return <FipeScreen {...fipeData} />
+    return (
+      <FipeScreen
+        {...fipeData}
+        brandId={brandId}
+        modelId={modelId}
+        yearId={yearId}
+      />
+    )
   } catch (err) {
     const { message } = err as HttpError | Error
 

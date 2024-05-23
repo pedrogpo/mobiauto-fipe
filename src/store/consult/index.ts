@@ -13,7 +13,7 @@ class ConsultStore {
   loadingYears = false
 
   constructor() {
-    makeAutoObservable(this)
+    makeAutoObservable(this, {}, { autoBind: true })
   }
 
   async fetchModels(vehicleType: vehicleTypes, brand: string) {

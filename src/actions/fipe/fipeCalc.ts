@@ -7,11 +7,11 @@ import { IFipeCalc } from '~/interfaces/api/fipe/fipeCalc'
 export const fipeCalc = async (
   vehicleType: vehicleTypes,
   brandId: string,
-  modeloId: string,
-  year: string,
+  modelId: string,
+  yearId: string,
 ) => {
   const item = await fetchGet<IFipeCalc>(
-    `/${vehicleType}/marcas/${brandId}/modelos/${modeloId}/anos/${year}`,
+    `/${vehicleType}/marcas/${brandId}/modelos/${modelId}/anos/${yearId}`,
     {
       next: {
         revalidate: 15,

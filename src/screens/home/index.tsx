@@ -1,6 +1,7 @@
-import { Grid, Typography } from '@mui/material'
 import FormConsult from './components/FormConsult'
+import { Grid, Typography } from '@mui/material'
 import { IBrandResponse } from '~/interfaces/api/fipe/brands'
+import LastConsults from './components/LastConsults'
 
 interface IFormConsultProps {
   brands: IBrandResponse[]
@@ -14,8 +15,10 @@ export default function HomeScreen({ brands }: IFormConsultProps) {
       justifyContent="center"
       textAlign="center"
       sx={{ minHeight: '100vh' }}
+      my={2}
+      px={2}
     >
-      <Grid item md={4}>
+      <Grid item md={4} sm={8} xs={12}>
         <Typography variant="h4" fontWeight={900} component="h1">
           Tabela Fipe
         </Typography>
@@ -24,6 +27,8 @@ export default function HomeScreen({ brands }: IFormConsultProps) {
         </Typography>
 
         <FormConsult brands={brands} />
+
+        <LastConsults />
       </Grid>
     </Grid>
   )
