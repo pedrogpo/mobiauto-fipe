@@ -4,6 +4,7 @@ import {
   Autocomplete,
   Box,
   Button,
+  CircularProgress,
   MenuItem,
   Select,
   Snackbar,
@@ -13,7 +14,7 @@ import { Controller, useForm } from 'react-hook-form'
 import { IBrandResponse } from '~/interfaces/api/fipe/brands'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { FormConsultType, formConsult } from '~/core/schemas/fipe/formConsult'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { observer } from 'mobx-react-lite'
 import { consultStore } from '~/store/consult'
 import { useRouter } from 'next/navigation'
@@ -29,6 +30,7 @@ function FormConsult({ brands }: IFormConsultProps) {
   const { showSnackbar } = useSnackbar()
 
   const router = useRouter()
+
   const {
     setValue,
     handleSubmit,
@@ -40,9 +42,12 @@ function FormConsult({ brands }: IFormConsultProps) {
     mode: 'onChange',
   })
 
+  const [loadingButton, setLoadingButton] = useState<boolean>(false)
+
   const onSubmit = async (data: FormConsultType) => {
     if (data.brand === 'undefined' || data.model === 'undefined') return
 
+    setLoadingButton(true)
     router.push(`/fipe/${data.brand}/${data.model}/${data.year}`)
   }
 
@@ -117,44 +122,56 @@ function FormConsult({ brands }: IFormConsultProps) {
           )}
         />
 
-        <Controller
-          name="model"
-          control={control}
-          rules={{ required: true }}
-          render={({ field }) => (
-            <Autocomplete
-              options={models?.modelos?.map((model) => model.nome) || []}
-              {...field}
-              value={
-                models?.modelos?.find(
-                  (model) => String(model.codigo) === field.value,
-                )?.nome || null
-              }
-              fullWidth
-              onChange={(event, value) =>
-                setValue(
-                  'model',
-                  String(
-                    models?.modelos?.find((model) => model.nome === value)
-                      ?.codigo,
-                  ) || null,
-                  { shouldValidate: true },
-                )
-              }
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label={
-                    loadingModels
-                      ? 'Carregando modelos...'
-                      : 'Selecione o modelo'
-                  }
-                />
-              )}
-              disabled={!models || !isBrandSelected}
-            />
+        <Box position="relative">
+          <Controller
+            name="model"
+            control={control}
+            rules={{ required: true }}
+            render={({ field }) => (
+              <Autocomplete
+                options={models?.modelos?.map((model) => model.nome) || []}
+                {...field}
+                value={
+                  models?.modelos?.find(
+                    (model) => String(model.codigo) === field.value,
+                  )?.nome || null
+                }
+                fullWidth
+                onChange={(event, value) =>
+                  setValue(
+                    'model',
+                    String(
+                      models?.modelos?.find((model) => model.nome === value)
+                        ?.codigo,
+                    ) || null,
+                    { shouldValidate: true },
+                  )
+                }
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label={
+                      loadingModels
+                        ? 'Carregando modelos...'
+                        : 'Selecione o modelo'
+                    }
+                  />
+                )}
+                disabled={!models || !isBrandSelected}
+              />
+            )}
+          />
+          {loadingModels && (
+            <Box
+              position="absolute"
+              right={40}
+              top="50%"
+              sx={{ transform: 'translateY(-50%)', height: 20 }}
+            >
+              <CircularProgress size={20} />
+            </Box>
           )}
-        />
+        </Box>
 
         {isBrandSelected && isModelSelected && years && (
           <Controller
@@ -189,6 +206,9 @@ function FormConsult({ brands }: IFormConsultProps) {
           color="primary"
           type="submit"
           sx={{ alignSelf: 'center', px: 6 }}
+          startIcon={
+            loadingButton && <CircularProgress color="inherit" size={20} />
+          }
         >
           Consultar preço
         </Button>
