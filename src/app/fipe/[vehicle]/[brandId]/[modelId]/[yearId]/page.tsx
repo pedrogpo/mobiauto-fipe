@@ -17,10 +17,16 @@ export async function generateMetadata({
 }: {
   params: IFipeProps
 }): Promise<Metadata> {
-  const fipeData = await fipeCalc(vehicle, brandId, modelId, yearId)
+  try {
+    const fipeData = await fipeCalc(vehicle, brandId, modelId, yearId)
 
-  return {
-    title: `${fipeData.Marca} - ${fipeData.Modelo} | ${fipeData.AnoModelo}`,
+    return {
+      title: `${fipeData.Marca} - ${fipeData.Modelo} | ${fipeData.AnoModelo}`,
+    }
+  } catch (err) {
+    return {
+      title: 'Consulta Fipe',
+    }
   }
 }
 
@@ -43,12 +49,12 @@ export default async function Page({
       />
     )
   } catch (err) {
-    const { message } = err as HttpError | Error
-
     return (
       <ErrorScreen
-        title="Erro ao buscar marcas"
-        message={message || 'Algo deu errado. Tente novamente mais tarde'}
+        title="Ops! Algo deu errado"
+        message={
+          'Atualmente, é provável que este veículo não tenha informações disponíveis na Tabela Fipe.'
+        }
       />
     )
   }
