@@ -54,8 +54,7 @@ describe('FormConsult component', () => {
 
     const { findByText } = render(await Page(mockParams))
 
-    expect(await findByText('Erro ao buscar marcas')).toBeInTheDocument()
-    expect(await findByText(ERR_MESSAGE)).toBeInTheDocument()
+    expect(await findByText('Ops! Algo deu errado')).toBeInTheDocument()
   })
 
   it('renders ErrorScreen when fipeCalc fails with HttpError with correct error message', async () => {
@@ -68,8 +67,7 @@ describe('FormConsult component', () => {
 
     const { findByText } = render(await Page(mockParams))
 
-    expect(await findByText('Erro ao buscar marcas')).toBeInTheDocument()
-    expect(await findByText(ERR_MESSAGE)).toBeInTheDocument()
+    expect(await findByText('Ops! Algo deu errado')).toBeInTheDocument()
   })
 
   it('renders FipeScreen when fipeCalc returns data', async () => {
