@@ -1,5 +1,6 @@
 import { Box, Button, Container, Grid, Typography } from '@mui/material'
 import Image from 'next/image'
+import Link from 'next/link'
 
 interface IErrorScreenProps {
   title: string
@@ -23,9 +24,11 @@ export default function ErrorScreen({ title, message }: IErrorScreenProps) {
           <Typography sx={{ mt: 1 }} fontWeight={500} component="p">
             {message}
           </Typography>
-          <Button sx={{ mt: 3 }} variant="contained" color="primary">
-            Voltar para a página inicial
-          </Button>
+          <Link href="/">
+            <Button sx={{ mt: 3 }} variant="contained" color="primary">
+              Voltar para a página inicial
+            </Button>
+          </Link>
         </Grid>
         <Grid item md={6}>
           <Image
