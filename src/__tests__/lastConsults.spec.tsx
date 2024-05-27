@@ -29,6 +29,7 @@ const fipeDataMock: IFipeCalcWithIds = {
   brandId: '189',
   modelId: '6342',
   yearId: '2012-1',
+  vehicle: 'carros',
 }
 
 const secondFipeDataMock: IFipeCalcWithIds = {
@@ -44,6 +45,7 @@ const secondFipeDataMock: IFipeCalcWithIds = {
   brandId: '7',
   modelId: '155',
   yearId: '1995-1',
+  vehicle: 'carros',
 }
 
 describe('LastConsults store', () => {

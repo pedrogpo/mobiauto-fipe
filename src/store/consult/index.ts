@@ -21,24 +21,30 @@ export class ConsultStore {
   }
 
   async fetchBrands(vehicleType: vehicleTypes) {
-    this.loadingBrands = true
-    this.brands = await getBrands(vehicleType).finally(() => {
-      this.loadingBrands = false
-    })
+    this.setLoadingBrands(true)
+    this.setBrands(
+      await getBrands(vehicleType).finally(() => {
+        this.setLoadingBrands(false)
+      }),
+    )
   }
 
   async fetchModels(vehicleType: vehicleTypes, brand: string) {
-    this.loadingModels = true
-    this.models = await getModels(vehicleType, brand).finally(() => {
-      this.loadingModels = false
-    })
+    this.setLoadingModels(true)
+    this.setModels(
+      await getModels(vehicleType, brand).finally(() => {
+        this.setLoadingModels(false)
+      }),
+    )
   }
 
   async fetchYears(vehicleType: vehicleTypes, brand: string, model: string) {
-    this.loadingYears = true
-    this.years = await getYears(vehicleType, brand, model).finally(() => {
-      this.loadingYears = false
-    })
+    this.setLoadingYears(true)
+    this.setYears(
+      await getYears(vehicleType, brand, model).finally(() => {
+        this.setLoadingYears(false)
+      }),
+    )
   }
 
   clearBrands() {
@@ -53,12 +59,28 @@ export class ConsultStore {
     this.years = null
   }
 
+  setBrands(brands: IBrandResponse[] | null) {
+    this.brands = brands
+  }
+
   setYears(years: IYearsResponse[] | null) {
     this.years = years
   }
 
   setModels(models: IModelsResponse | null) {
     this.models = models
+  }
+
+  setLoadingBrands(loading: boolean) {
+    this.loadingBrands = loading
+  }
+
+  setLoadingModels(loading: boolean) {
+    this.loadingModels = loading
+  }
+
+  setLoadingYears(loading: boolean) {
+    this.loadingYears = loading
   }
 }
 
